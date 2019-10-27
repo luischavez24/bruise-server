@@ -6,9 +6,13 @@ import numpy as np
 import uuid
 import tempfile
 import shutil
+from flask_cors import CORS, cross_origin
 
 classifier = Classifier()
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 size = 64,64
 dirpath = tempfile.mkdtemp()
 
@@ -19,10 +23,11 @@ def load_image(infilename) :
   return data
 
 @app.route('/')
+@cross_origin()
 def index(): 
   return render_template('index.html')
 
-classes = ['Inmediatamente', 'Poco después', 'Dias 4 a 5', 'Dias 7 a 10']
+classes = ['Dias 0 a 1', 'Dias 1 a 2', 'Dias 4 a 5', 'Dias 7 a 10']
 
 @app.route('/predict', methods=['POST'])
 def upload():
